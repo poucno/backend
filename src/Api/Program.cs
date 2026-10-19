@@ -1,7 +1,16 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, context, cancellationToken) =>
+    {
+        document.Info.Title = "Poucno Backend API";
+        document.Info.Version = "1.0.0";
+        document.Info.Description = "REST API for the Poucno application.";
+        return Task.CompletedTask;
+    });
+});
 
 builder.Services.AddCors(options =>
 {
@@ -16,6 +25,15 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.MapOpenApi();
+
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint(
+        "/openapi/v1.json",
+        "Poucno API v1"
+    );
+});
+
 app.UseCors("AllowAll");
 
 var summaries = new[]
@@ -36,6 +54,8 @@ app.MapGet("/weatherforecast", () =>
         return forecast;
     })
     .WithName("GetWeatherForecast");
+
+app.MapGet("/", () => "Hello World!");
 
 app.Run();
 
