@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Poucno.Backend.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,6 +25,11 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 var app = builder.Build();
 
 app.MapOpenApi();
@@ -35,6 +43,12 @@ app.UseSwaggerUI(options =>
 });
 
 app.UseCors("AllowAll");
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
+}
 
 var summaries = new[]
 {
@@ -57,7 +71,7 @@ app.MapGet("/weatherforecast", () =>
 
 app.MapGet("/", () => "Hello World!");
 
-app.Run();
+await app.RunAsync();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {

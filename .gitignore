@@ -429,3 +429,8 @@ FodyWeavers.xsd
 
 # JetBrains
 .idea/
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
