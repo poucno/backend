@@ -8,5 +8,7 @@
     <File Path="global.json" />
     <File Path="README.md" />
   </Folder>
-  <Folder Name="/src/" />
+  <Folder Name="/src/">
+    <Project Path="src/Api/Api.csproj" />
+  </Folder>
 </Solution>
