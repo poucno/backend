@@ -1,0 +1,14 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/Api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ConnectionStrings__DefaultConnection: "Data Source=/app/data/poucno.db"
+    volumes:
+      - poucno-data:/app/data
+
+volumes:
+  poucno-data:
