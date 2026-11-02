@@ -13,4 +13,6 @@ public sealed class GameOption
     public string Title { get; set; } = null!;
     public string Url { get; set; } = null!;
     public string ThumbnailUrl { get; set; } = null!;
+    public int MinAnswers { get; set; }
+    public int MaxAnswers { get; set; }
 }

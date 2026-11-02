@@ -4,5 +4,7 @@ public record GameDto(
     string Id,
     string Title,
     string Url,
-    string ThumbnailUrl
+    string ThumbnailUrl,
+    int MinAnswers,
+    int MaxAnswers
 );
