@@ -6,7 +6,7 @@ using Poucno.Backend.Api.Features.Collections.Dtos;
 
 namespace Poucno.Backend.Api.Features.Collections.Queries;
 
-public record GetCollectionByIdQuery(string OwnerId, Guid Id) : IRequest<CollectionDto?>;
+public record GetCollectionByIdQuery(Guid Id) : IRequest<CollectionDto?>;
 
 public class GetCollectionByIdQueryHandler(AppDbContext db, IMapper mapper)
     : IRequestHandler<GetCollectionByIdQuery, CollectionDto?>
@@ -19,7 +19,7 @@ public class GetCollectionByIdQueryHandler(AppDbContext db, IMapper mapper)
             .ProjectTo<CollectionDto>(
                 db.Collections
                     .AsNoTracking()
-                    .Where(c => c.Id == request.Id && c.OwnerId == request.OwnerId))
+                    .Where(c => c.Id == request.Id))
             .FirstOrDefaultAsync(ct);
     }
 }

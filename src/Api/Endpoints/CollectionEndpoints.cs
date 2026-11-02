@@ -15,8 +15,7 @@ public static class CollectionEndpoints
         this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/collections")
-            .WithTags("Collections")
-            .RequireAuthorization();
+            .WithTags("Collections");
 
         group.MapGet("/", async (
                 ClaimsPrincipal user,
@@ -28,16 +27,17 @@ public static class CollectionEndpoints
 
                 return Results.Ok(collections);
             })
+            .RequireAuthorization()
             .WithName("GetCollections");
 
+        // Open on purpose: the collection id is the share link, kids play without an account.
         group.MapGet("/{id:guid}", async (
                 Guid id,
-                ClaimsPrincipal user,
                 ISender sender,
                 CancellationToken ct) =>
             {
                 var collection = await sender.Send(
-                    new GetCollectionByIdQuery(OwnerId(user), id), ct);
+                    new GetCollectionByIdQuery(id), ct);
 
                 return collection is null
                     ? Results.NotFound()
@@ -63,6 +63,7 @@ public static class CollectionEndpoints
                     $"/collections/{id}",
                     new { id });
             })
+            .RequireAuthorization()
             .WithName("CreateCollection");
 
         group.MapPut("/{id:guid}", async (
@@ -84,6 +85,7 @@ public static class CollectionEndpoints
                     ? Results.NoContent()
                     : Results.NotFound();
             })
+            .RequireAuthorization()
             .WithName("UpdateCollection");
 
         group.MapDelete("/{id:guid}", async (
@@ -99,6 +101,7 @@ public static class CollectionEndpoints
                     ? Results.NoContent()
                     : Results.NotFound();
             })
+            .RequireAuthorization()
             .WithName("DeleteCollection");
 
         return app;
