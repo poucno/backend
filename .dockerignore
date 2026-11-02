@@ -90,3 +90,5 @@
 *.db
 *.db-shm
 *.db-wal
+
+keys/
