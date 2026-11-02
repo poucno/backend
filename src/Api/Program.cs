@@ -128,6 +128,5 @@ auth.MapIdentityApi<AppUser>();
 // Endpoints
 app.MapGameEndpoints();
 app.MapCollectionEndpoints();
-app.MapTodoEndpoints();
 
 await app.RunAsync();

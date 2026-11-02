@@ -6,22 +6,12 @@ namespace Poucno.Backend.Api.Data;
 
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser>(options)
 {
-    public DbSet<TodoItem> TodoItems => Set<TodoItem>();
     public DbSet<Collection> Collections => Set<Collection>();
     public DbSet<CollectionQuestion> CollectionQuestions => Set<CollectionQuestion>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
-        modelBuilder.Entity<TodoItem>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-        
-            entity.Property(e => e.Title)
-                .IsRequired()
-                .HasMaxLength(255);
-        });
 
         modelBuilder.Entity<Collection>(entity =>
         {
