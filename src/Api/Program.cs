@@ -25,6 +25,10 @@ builder.Services.AddOpenApi(options =>
         document.Info.Title = "Poucno Backend API";
         document.Info.Version = "1.0.0";
         document.Info.Description = "REST API for the Poucno application.";
+
+        // Behind the HTTPS proxy the app sees plain http and would advertise an http:// server,
+        // which browsers block from the https Swagger page. A relative URL keeps the page's own origin.
+        document.Servers = [new OpenApiServer { Url = "/" }];
         return Task.CompletedTask;
     });
     
