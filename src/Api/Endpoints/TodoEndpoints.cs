@@ -9,7 +9,7 @@ public static class TodoEndpoints
     public static IEndpointRouteBuilder MapTodoEndpoints(
         this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/todos")
+        var group = app.MapGroup("/todos")
             .WithTags("Todos");
 
         group.MapGet("/", async (
@@ -48,7 +48,7 @@ public static class TodoEndpoints
                 var id = await sender.Send(command, ct);
 
                 return Results.Created(
-                    $"/api/todos/{id}",
+                    $"/todos/{id}",
                     new { id });
             })
             .WithName("CreateTodo");

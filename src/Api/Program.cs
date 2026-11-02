@@ -88,7 +88,7 @@ builder.Services.AddIdentityApiEndpoints<AppUser>(options =>
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo("data/keys"));
 
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -126,6 +126,7 @@ auth.AddEndpointFilter(async (ctx, next) =>
 auth.MapIdentityApi<AppUser>();
 
 // Endpoints
+app.MapGameEndpoints();
 app.MapTodoEndpoints();
 
 await app.RunAsync();
